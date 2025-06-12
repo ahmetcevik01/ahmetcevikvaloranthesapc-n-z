@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ahmetcevikvalorant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#8e44ad',
+secondary: '#e74c3c',
+neon: {
+pink: '#ff00ff',
+blue: '#00ffff',
+green: '#00ff00',
+yellow: '#ffff00'
+},
+dark: '#121212',
+darker: '#0a0a0a'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+},
+animation: {
+'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+'glow': 'glow 2s ease-in-out infinite alternate',
+'border-flow': 'border-flow 2s linear infinite',
+'float': 'float 3s ease-in-out infinite',
+'gradient-x': 'gradient-x 15s ease infinite',
+'spin-slow': 'spin 3s linear infinite'
+},
+keyframes: {
+glow: {
+'0%': { textShadow: '0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073e6, 0 0 20px #0073e6' },
+'100%': { textShadow: '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0073e6, 0 0 40px #0073e6' }
+},
+'border-flow': {
+'0%': { backgroundPosition: '0% 0%' },
+'100%': { backgroundPosition: '100% 0%' }
+},
+float: {
+'0%, 100%': { transform: 'translateY(0)' },
+'50%': { transform: 'translateY(-10px)' }
+},
+'gradient-x': {
+'0%, 100%': {
+backgroundSize: '200% 200%',
+backgroundPosition: 'left center'
+},
+'50%': {
+backgroundSize: '200% 200%',
+backgroundPosition: 'right center'
+}
+}
+}
+}
+}
+}
+</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+background-color: #0a0a0a;
+color: #ffffff;
+font-family: 'Plus Jakarta Sans', sans-serif;
+overflow-x: hidden;
+}
+.glass-effect {
+background: rgba(255, 255, 255, 0.03);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.text-gradient {
+background: linear-gradient(90deg, #8e44ad, #e74c3c);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+}
+.border-gradient {
+position: relative;
+}
+.border-gradient::after {
+content: '';
+position: absolute;
+inset: 0;
+border-radius: inherit;
+padding: 1px;
+background: linear-gradient(90deg, #8e44ad, #e74c3c);
+mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+mask-composite: exclude;
+-webkit-mask-composite: xor;
+}
+.rgb-gradient {
+background: linear-gradient(90deg, #ff00ff, #00ffff, #00ff00, #ffff00, #ff00ff);
+background-size: 400% 400%;
+animation: gradient-x 15s ease infinite;
+}
+.loading-screen {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #0a0a0a;
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 9999;
+transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+.rgb-dot {
+  background: linear-gradient(to right, red, lime, blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 300% 300%;
+  animation: gradientMove 5s ease infinite;
+}
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+.loading-spinner {
+width: 80px;
+height: 80px;
+border-radius: 50%;
+border: 4px solid rgba(255, 255, 255, 0.1);
+border-top-color: #8e44ad;
+animation: spin 1s linear infinite;
+}
+.product-slider {
+scrollbar-width: none;
+}
+.product-slider::-webkit-scrollbar {
+display: none;
+}
+.modal {
+opacity: 0;
+visibility: hidden;
+transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.modal.active {
+opacity: 1;
+visibility: visible;
+}
+.modal-content {
+transform: scale(0.9);
+transition: transform 0.3s ease;
+}
+.modal.active .modal-content {
+transform: scale(1);
+}
+.faq-item-content {
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.3s ease;
+}
+.faq-item.active .faq-item-content {
+max-height: 500px;
+}
+@keyframes spin {
+to { transform: rotate(360deg); }
+}
+@keyframes glow {
+0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073e6, 0 0 20px #0073e6; }
+100% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0073e6, 0 0 40px #0073e6; }
+}
+@keyframes border-flow {
+0% { background-position: 0% 0%; }
+100% { background-position: 400% 0%; }
+}
+@keyframes float {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-10px); }
+}
+@keyframes gradient-x {
+0%, 100% {
+background-position: 0% 50%;
+}
+50% {
+background-position: 100% 50%;
+}
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+input[type="number"] {
+-moz-appearance: textfield;
+}
+/* Custom radio button */
+.custom-radio {
+position: relative;
+padding-left: 30px;
+cursor: pointer;
+user-select: none;
+}
+.custom-radio input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+}
+.radio-checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 20px;
+width: 20px;
+background-color: #1a1a1a;
+border: 2px solid #8e44ad;
+border-radius: 50%;
+transition: all 0.2s ease;
+}
+.custom-radio:hover .radio-checkmark {
+border-color: #a855f7;
+}
+.custom-radio input:checked ~ .radio-checkmark {
+background-color: #1a1a1a;
+border-color: #8e44ad;
+}
+.radio-checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+.custom-radio input:checked ~ .radio-checkmark:after {
+display: block;
+}
+.custom-radio .radio-checkmark:after {
+top: 3px;
+left: 3px;
+width: 10px;
+height: 10px;
+border-radius: 50%;
+background: #8e44ad;
+box-shadow: 0 0 5px #8e44ad;
+}
+</style>
+</head>
+<body>
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+<div class="flex flex-col items-center justify-center min-h-screen">
+<div class="relative w-64 h-2 bg-darker rounded-full overflow-hidden">
+<div class="absolute top-0 left-0 h-full w-1/3 bg-gradient-to-r from-primary via-secondary to-primary animate-loading-bar"></div>
+</div>
+</div>
+</div>
+<style>
+@keyframes loading-bar {
+0% {
+transform: translateX(-100%);
+}
+100% {
+transform: translateX(300%);
+}
+}
+.animate-loading-bar {
+animation: loading-bar 1.5s ease-in-out infinite;
+}
+</style>
+<style>
+@keyframes ellipsis {
+0% { content: '.'; }
+33% { content: '..'; }
+66% { content: '...'; }
+100% { content: '.'; }
+}
+</style>
+<!-- Header -->
+<header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-darker/50 backdrop-blur-md" id="mainHeader">
+<div class="relative">
+<div class="absolute -bottom-1 left-0 w-full h-[2px] bg-gradient-to-r from-primary via-secondary to-primary animate-gradient-x"></div>
+<div class="absolute -top-1 left-0 w-full h-[2px] bg-gradient-to-r from-primary via-secondary to-primary animate-gradient-x"></div>
+</div>
+<div class="container mx-auto px-4">
+<div class="flex items-center justify-center h-20 transition-all duration-300" id="navContainer">
+  <a href="#"
+     class="absolute left-4 text-4xl font-['Poppins'] text-white transition-all duration-300">
+    ahmetcevikvalorant<span class="rgb-dot text-6xl">.</span>
+  </a>
+<nav class="hidden md:flex items-center gap-1 bg-darker/50 backdrop-blur-md px-2 py-1 rounded-full border border-white/5">
+<a href="#home" class="relative px-4 py-2 text-white hover:text-primary group transition-all duration-300 rounded-full hover:bg-white/5">
+Ana Sayfa
+<span class="absolute bottom-0 left-0 w-full h-full bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300"></span>
+</a>
+<a href="https://www.instagram.com/valoranthesapalsatahmetcevik/" target="_blank" class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 !rounded-button transition-all shadow-lg shadow-primary/20 whitespace-nowrap">
+Daha İyi Skinler İçin Alışverişe Başla
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer id="contact" class="bg-dark pt-16 pb-8 border-t border-gray-800">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+<!-- Column 1 -->
+<div>
+<span class="text-3xl font-['Poppins'] text-white mb-4 inline-block">
+  ahmetcevikvalorant<span class="rgb-dot text-4xl">.</span>
+</span>
+<p class="text-gray-400 mb-6">
+2023'ten beri oyunculara hesap ve vp hizmeti sunuyoruz. Amacımız, daha iyi skinler hesaplar satabilmek.
+</p>
+<div class="flex space-x-4">
+<a href="#" class="w-10 h-10 bg-darker hover:bg-primary/20 rounded-full flex items-center justify-center text-white transition-colors">
+<i class="ri-discord-fill ri-lg"></i>
+</a>
+<a href="#" class="w-10 h-10 bg-darker hover:bg-primary/20 rounded-full flex items-center justify-center text-white transition-colors">
+<i class="ri-telegram-fill ri-lg"></i>
+</a>
+<a href="#" class="w-10 h-10 bg-darker hover:bg-primary/20 rounded-full flex items-center justify-center text-white transition-colors">
+<i class="ri-instagram-fill ri-lg"></i>
+</a>
+<a href="#" class="w-10 h-10 bg-darker hover:bg-primary/20 rounded-full flex items-center justify-center text-white transition-colors">
+<i class="ri-youtube-fill ri-lg"></i>
+</a>
+</div>
+</div>
+<!-- Column 2 -->
+<div>
+<h3 class="text-lg font-bold mb-4">Hızlı Linkler</h3>
+<ul class="space-y-2">
+<li><a href="#home" class="text-gray-400 hover:text-primary transition-colors">Ana Sayfa</a></li>
+<li><a href="https://www.instagram.com/valoranthesapalsatahmetcevik/" target="_blank" class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 !rounded-button transition-all shadow-lg shadow-primary/20 whitespace-nowrap">
+Daha İyi Skinler İçin Alışverişe Başla
+</a>
+<a href="#" class="text-gray-400 hover:text-primary">
+<i class="ri-telegram-fill ri-lg"></i>
+</a>
+<a href="#" class="text-gray-400 hover:text-primary">
+<i class="ri-mail-fill ri-lg"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Scripts -->
+<script id="loadingScript">
+document.addEventListener('DOMContentLoaded', function() {
+// Loading screen with smooth transition
+const loadingScreen = document.getElementById('loadingScreen');
+loadingScreen.style.transition = 'opacity 0.8s ease-out';
+setTimeout(function() {
+loadingScreen.style.opacity = '0';
+setTimeout(function() {
+loadingScreen.style.display = 'none';
+}, 800);
+}, 1500);
+// Add micro-interactions
+document.querySelectorAll('button, a').forEach(element => {
+element.addEventListener('mouseenter', function() {
+this.style.transform = 'translateY(-2px)';
+this.style.transition = 'all 0.2s ease';
+});
+element.addEventListener('mouseleave', function() {
+this.style.transform = 'translateY(0)';
+});
+element.addEventListener('click', function() {
+this.style.transform = 'scale(0.95)';
+setTimeout(() => {
+this.style.transform = 'scale(1)';
+}, 150);
+});
+});
+// Smooth button hover effect
+document.querySelectorAll('.bg-primary').forEach(button => {
+button.addEventListener('mouseenter', function() {
+this.style.boxShadow = '0 8px 20px -8px rgba(142, 68, 173, 0.5)';
+});
+button.addEventListener('mouseleave', function() {
+this.style.boxShadow = 'none';
+});
+});
+});
+</script>
+<script id="navigationScript">
+document.addEventListener('DOMContentLoaded', function() {
+const mainHeader = document.getElementById('mainHeader');
+const navContainer = document.getElementById('navContainer');
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+let lastScrollTop = 0;
+let isMenuOpen = false;
+// Handle scroll events for navbar animation
+window.addEventListener('scroll', function() {
+const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+mainHeader.style.transform = 'translateY(0)';
+navContainer.classList.add('h-20');
+});
+// Mobile menu toggle with animation
+mobileMenuBtn.addEventListener('click', function() {
+isMenuOpen = !isMenuOpen;
+if (isMenuOpen) {
+mobileMenu.style.transform = 'translateY(0)';
+this.innerHTML = '<i class="ri-close-line ri-lg"></i>';
+} else {
+mobileMenu.style.transform = 'translateY(-100%)';
+this.innerHTML = '<i class="ri-menu-line ri-lg"></i>';
+}
+});
+// Close mobile menu when clicking on a link
+const mobileLinks = mobileMenu.querySelectorAll('a');
+mobileLinks.forEach(link => {
+link.addEventListener('click', function() {
+mobileMenu.classList.add('hidden');
+});
+});
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function(e) {
+e.preventDefault();
+const targetId = this.getAttribute('href');
+if (targetId === '#') return;
+const targetElement = document.querySelector(targetId);
+if (targetElement) {
+window.scrollTo({
+top: targetElement.offsetTop - 80,
+behavior: 'smooth'
+});
+}
+});
+});
+});
+</script>
+<script id="productSliderScript">
+document.addEventListener('DOMContentLoaded', function() {
+const productSlider = document.getElementById('productSlider');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+// Product slider navigation
+nextBtn.addEventListener('click', function() {
+productSlider.scrollBy({
+left: 400,
+behavior: 'smooth'
+});
+});
+prevBtn.addEventListener('click', function() {
+productSlider.scrollBy({
+left: -400,
+behavior: 'smooth'
+});
+});
+});
+</script>
+<script id="modalScript">
+document.addEventListener('DOMContentLoaded', function() {
+// Product detail modals
+const productDetailBtns = document.querySelectorAll('.product-detail-btn');
+productDetailBtns.forEach(btn => {
+btn.addEventListener('click', function() {
+const productId = this.getAttribute('data-product');
+const modal = document.getElementById(productId + 'Modal');
+modal.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
+});
+// Close product modals
+for (let i = 1; i <= 5; i++) {
+const closeBtn = document.getElementById('closeProduct' + i + 'Modal');
+const backdrop = document.getElementById('product' + i + 'Backdrop');
+const modal = document.getElementById('product' + i + 'Modal');
+if (closeBtn && backdrop && modal) {
+closeBtn.addEventListener('click', function() {
+modal.classList.remove('active');
+document.body.style.overflow = '';
+});
+backdrop.addEventListener('click', function() {
+modal.classList.remove('active');
+document.body.style.overflow = '';
+});
+}
+}
+// Refund policy modal
+const refundPolicyBtn = document.getElementById('refundPolicyBtn');
+const refundPolicyFooterBtn = document.getElementById('refundPolicyFooterBtn');
+const refundPolicyFooterBtn2 = document.getElementById('refundPolicyFooterBtn2');
+const refundPolicyModal = document.getElementById('refundPolicyModal');
+const closeRefundPolicyModal = document.getElementById('closeRefundPolicyModal');
+const refundPolicyBackdrop = document.getElementById('refundPolicyBackdrop');
+[refundPolicyBtn, refundPolicyFooterBtn, refundPolicyFooterBtn2].forEach(btn => {
+if (btn) {
+btn.addEventListener('click', function(e) {
+e.preventDefault();
+refundPolicyModal.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
+}
+});
+if (closeRefundPolicyModal) {
+closeRefundPolicyModal.addEventListener('click', function() {
+refundPolicyModal.classList.remove('active');
+document.body.style.overflow = '';
+});
+}
+if (refundPolicyBackdrop) {
+refundPolicyBackdrop.addEventListener('click', function() {
+refundPolicyModal.classList.remove('active');
+document.body.style.overflow = '';
+});
+}
+// Contact modal
+const contactBtn = document.getElementById('contactBtn');
+const contactModal = document.getElementById('contactModal');
+const closeContactModal = document.getElementById('closeContactModal');
+const contactBackdrop = document.getElementById('contactBackdrop');
+if (contactBtn) {
+contactBtn.addEventListener('click', function(e) {
+e.preventDefault();
+contactModal.classList.add('active');
+document.body.style.overflow = 'hidden';
+});
+}
+if (closeContactModal) {
+closeContactModal.addEventListener('click', function() {
+contactModal.classList.remove('active');
+document.body.style.overflow = '';
+});
+}
+if (contactBackdrop) {
+contactBackdrop.addEventListener('click', function() {
+contactModal.classList.remove('active');
+document.body.style.overflow = '';
+});
+}
+});
+</script>
+<script id="faqScript">
+document.addEventListener('DOMContentLoaded', function() {
+// FAQ accordion
+const faqToggles = document.querySelectorAll('.faq-toggle');
+faqToggles.forEach(toggle => {
+toggle.addEventListener('click', function() {
+const faqItem = this.parentElement;
+const isActive = faqItem.classList.contains('active');
+// Close all FAQ items
+document.querySelectorAll('.faq-item').forEach(item => {
+item.classList.remove('active');
+const icon = item.querySelector('.faq-icon');
+if (icon) {
+icon.style.transform = 'rotate(0deg)';
+}
+});
+// Open clicked FAQ item if it was not active
+if (!isActive) {
+faqItem.classList.add('active');
+const icon = this.querySelector('.faq-icon');
+if (icon) {
+icon.style.transform = 'rotate(180deg)';
+}
+}
+});
+});
+});
+</script>
+</body>
+</html>
